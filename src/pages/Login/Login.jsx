@@ -188,7 +188,7 @@ export default function Login() {
               />
               <Link
                 component={RouterLink}
-                to="/forgot-password"
+                to="/forgotpassword"
                 underline="none"
                 className="text-sm font-semibold text-[#00695c] hover:underline"
               >
