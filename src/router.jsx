@@ -5,6 +5,7 @@ import AuthLayout from './Layouts/AuthLayout';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import ForgotPassword from './pages/Forgotpassword/ForgotPassword';
+import ProductDetails from "./pages/ProductDetails/ProductDetails";
 
 
 
@@ -16,6 +17,9 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home/>
+      },{
+        path:"products/:id",
+        element:<ProductDetails/>
       }
     ]
   },

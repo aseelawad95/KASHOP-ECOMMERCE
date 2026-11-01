@@ -1,33 +1,93 @@
+import { useMemo, useState } from "react";
+import { Box, Chip, CircularProgress, Typography } from "@mui/material";
 import UseProducts from "../../hooks/UseProducts";
-import ProductCard from './ProductCard';
-import { Box,Typography,CircularProgress } from '@mui/material';
+import ProductCard from "./ProductCard";
+
+const FILTERS = ["All", "Bestsellers", "New In"];
 
 export default function Products() {
+  const { data, isPending, isError, error } = UseProducts();
+  const [filter, setFilter] = useState("All");
 
-     const {data,isPending,isError,error} = UseProducts();
+  // الفلترة بتتم من الداتا الموجودة (لا يوجد حقل مخصص بالـ API)
+  const products = useMemo(() => {
+    if (!data) return [];
+    if (filter === "Bestsellers") return [...data].sort((a, b) => b.rate - a.rate);
+    if (filter === "New In") return [...data].sort((a, b) => b.id - a.id);
+    return data;
+  }, [data, filter]);
 
-    if (isPending) return <CircularProgress />;
-    if (isError) return <Typography color="error">{error}</Typography>;
+  if (isPending) {
+    return (
+      <Box className="flex justify-center py-16">
+        <CircularProgress />
+      </Box>
+    );
+  }
 
+  if (isError) {
+    return (
+      <Box className="flex justify-center px-4 py-16">
+        <Typography color="error" className="text-center">
+          {error?.message || "Something went wrong while loading products."}
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
-    <Box>
-  <Typography variant='h5' component={'h2'} sx={{ mb: 2 }}>Products</Typography>
-  <Box
-    sx={{
-      display: 'grid',
-      gap: 2,
-      gridTemplateColumns: {
-        xs: "repeat(2,1fr)",
-        sm: "repeat(3,1fr)",
-        md: "repeat(4,1fr)",
-      },
-    }}
-  >
-    {data.map((product) => (
-      <ProductCard product={product} />
-    ))}
-  </Box>
-</Box>
-  )
+    <Box
+      component="section"
+      className="w-full overflow-x-hidden bg-[#f8f9ff] px-3 py-8 sm:px-4 sm:py-10 lg:px-5 lg:py-12"
+    >
+      {/* نفس عرض ومسافات الـ Hero والـ Categories */}
+      <Box className="mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-7">
+        {/* ============ الهيدر ============ */}
+        <Box className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <Box>
+            <Typography
+              variant="caption"
+              className="block text-[11px] font-bold uppercase tracking-wider text-[#0f6b5a]"
+            >
+              Editor&rsquo;s Selection
+            </Typography>
+            <Typography
+              variant="h2"
+              component="h2"
+              className="mt-1 text-2xl font-bold tracking-tight text-[#1b2233] sm:text-3xl md:text-4xl"
+            >
+              Featured &amp; Latest Additions
+            </Typography>
+          </Box>
+
+          <Box className="flex flex-wrap gap-2">
+            {FILTERS.map((item) => {
+              const active = filter === item;
+              return (
+                <Chip
+                  key={item}
+                  size="small"
+                  label={item}
+                  clickable
+                  onClick={() => setFilter(item)}
+                  className={`px-1 text-xs font-semibold ${
+                    active
+                      ? "bg-[#dbe3f8] text-[#0f6b5a] hover:bg-[#dbe3f8]"
+                      : "bg-white text-slate-600 hover:bg-[#eef0fb]"
+                  }`}
+                />
+              );
+            })}
+          </Box>
+        </Box>
+
+        {/* ============ الشبكة ============ */}
+        <Box className="mt-5 grid grid-cols-2 gap-3 sm:mt-6 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </Box>
+      </Box>
+    </Box>
+  );
 }
