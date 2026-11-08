@@ -24,6 +24,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import GoogleIcon from '@mui/icons-material/Google';
 import AppleIcon from '@mui/icons-material/Apple';
 import { loginSchema } from '../../Validations/authSchemas';
+import { useAuthStore } from './../../Store/useAuthStore';
 
 const inputClass =
   'rounded-lg bg-[#f5f6fe] text-sm [&_fieldset]:border-0 [&_input]:py-3 ' +
@@ -40,6 +41,7 @@ export default function Login() {
   const navigate = useNavigate();
   const [serverError, setServerError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+   const setToken = useAuthStore((state) => state.setToken);
 
   const {
     register,
@@ -53,8 +55,12 @@ export default function Login() {
   const onSubmit = async (data) => {
     setServerError(null);
     try {
-      await axios.post('https://knowledgeshop.runasp.net/api/auth/Account/Login', data);
+    const response =  await axios.post('https://knowledgeshop.runasp.net/api/auth/Account/Login', data);
       navigate('/');
+      // console.log('Login successful:', response.data);
+      // localStorage.setItem('token', response.data.accessToken);
+      setToken(response.data.accessToken);
+      navigate("/");
     } catch (error) {
       setServerError(
         error.response?.data?.message || 'An error occurred while logging in.'

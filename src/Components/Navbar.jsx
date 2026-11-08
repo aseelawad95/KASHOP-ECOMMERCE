@@ -9,15 +9,23 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import PersonIcon from "@mui/icons-material/Person";
+import { useAuthStore } from './../Store/useAuthStore';
 
 export default function Navbar() {
+
+ const token = useAuthStore((state) => state.token);
+ 
+  const handleLogout = () => {
+    useAuthStore.getState().logout();
+    window.location.href = "/login";
+  };
+
   return (
     <Box
       component="nav"
       className="fixed inset-x-0 top-0 z-50 border-b border-gray-200 bg-white/80 backdrop-blur-md"
     >
       <Box className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-3 lg:px-8">
-        {/* يسار: اللوجو + الروابط */}
         <Box className="flex items-center gap-6">
           <a href="/" className="text-xl font-bold text-[#00685F]">
             TealMarket
@@ -40,7 +48,6 @@ export default function Navbar() {
           </Box>
         </Box>
 
-        {/* نص: البحث */}
         <Box className="hidden w-full max-w-md items-center gap-3 rounded-xl bg-white px-4 py-2 shadow-sm md:flex">
           <SearchIcon className="text-slate-500" fontSize="small" />
           <InputBase
@@ -61,12 +68,21 @@ export default function Navbar() {
             </Badge>
           </IconButton>
 
-          <Button
-            href="/login"
-            className="text-sm font-semibold normal-case text-[#00685F]"
-          >
-            Sign In
-          </Button>
+          {token ? (
+            <Button
+              onClick={handleLogout}
+              className="text-sm font-semibold normal-case text-[#00685F]"
+            >
+              Logout
+            </Button>
+          ) : (
+            <Button
+              href="/login"
+              className="text-sm font-semibold normal-case text-[#00685F]"
+            >
+              Sign In
+            </Button>
+          )}
 
           <Avatar className="h-9 w-9 bg-[#00685F]">
             <PersonIcon fontSize="small" />

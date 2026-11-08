@@ -9,7 +9,6 @@ export default function Products() {
   const { data, isPending, isError, error } = UseProducts();
   const [filter, setFilter] = useState("All");
 
-  // الفلترة بتتم من الداتا الموجودة (لا يوجد حقل مخصص بالـ API)
   const products = useMemo(() => {
     if (!data) return [];
     if (filter === "Bestsellers") return [...data].sort((a, b) => b.rate - a.rate);
@@ -40,9 +39,7 @@ export default function Products() {
       component="section"
       className="w-full overflow-x-hidden bg-[#f8f9ff] px-3 py-8 sm:px-4 sm:py-10 lg:px-5 lg:py-12"
     >
-      {/* نفس عرض ومسافات الـ Hero والـ Categories */}
       <Box className="mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-7">
-        {/* ============ الهيدر ============ */}
         <Box className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <Box>
             <Typography
@@ -81,7 +78,6 @@ export default function Products() {
           </Box>
         </Box>
 
-        {/* ============ الشبكة ============ */}
         <Box className="mt-5 grid grid-cols-2 gap-3 sm:mt-6 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />

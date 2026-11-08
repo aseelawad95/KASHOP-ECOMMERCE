@@ -1,24 +1,38 @@
 import { Box, Button, Card, CardMedia, Chip, Typography } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import { useNavigate } from "react-router";
+import useAddToCart from "../../hooks/useAddToCart";
+import { useAuthStore } from './../../Store/useAuthStore';
+
+
 
 export default function ProductCard({ product }) {
+  const { mutate: addToCart, isPending: addingToCartPending } = useAddToCart();
+  const token = useAuthStore((state) => state.token);
+  const navigate = useNavigate();
   const { name, image, price, rate, quantity } = product;
 
-  // غير هدول حسب أسماء الحقول اللي بيرجعها الـ API عندك
   const categoryName = product.categoryName ?? product.category?.name;
   const reviewsCount = product.reviewsCount ?? product.reviews?.length;
   const oldPrice = product.oldPrice;
 
   const inStock = quantity === undefined || quantity > 0;
 
+  const handleAddToCart = () => {
+    console.log("clicked, token =", token);
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+    addToCart(product.id);
+  };
+
   return (
     <Card
       elevation={0}
       className="flex h-full flex-col rounded-xl bg-white p-2.5 shadow-sm transition-shadow hover:shadow-md sm:p-3"
-      // TODO: اجعل الكارد رابط لصفحة التفاصيل: component={Link} to={`/products/${product.id}`}
     >
-      {/* ============ الصورة ============ */}
       <Box className="relative aspect-square w-full overflow-hidden rounded-lg bg-[#eef0fb]">
         <CardMedia
           component="img"
@@ -36,7 +50,6 @@ export default function ProductCard({ product }) {
         )}
       </Box>
 
-      {/* ============ المعلومات ============ */}
       <Box className="mt-3 flex grow flex-col">
         <Box className="flex items-center gap-1">
           <StarIcon className="text-sm! text-[#f5a623]" />
@@ -57,7 +70,6 @@ export default function ProductCard({ product }) {
           {name}
         </Typography>
 
-        {/* ============ السعر وزر الإضافة ============ */}
         <Box className="mt-auto flex flex-wrap items-center justify-between gap-x-2 gap-y-2 pt-3">
           <Box className="flex items-baseline gap-1.5">
             <Typography
@@ -81,12 +93,12 @@ export default function ProductCard({ product }) {
             variant="contained"
             disableElevation
             size="small"
-            disabled={!inStock}
+            disabled={!inStock || addingToCartPending}
+            onClick={handleAddToCart}
             startIcon={<ShoppingCartOutlinedIcon className="text-base!" />}
             className="rounded-lg bg-[#0f6b5a] px-3 py-1 text-xs font-semibold normal-case text-white hover:bg-[#0b5748] disabled:bg-slate-200 disabled:text-slate-400"
-            // TODO: اربطها مع الـ cart (context / API)
           >
-            Add
+            {addingToCartPending ? "Adding..." : "Add"}
           </Button>
         </Box>
       </Box>
