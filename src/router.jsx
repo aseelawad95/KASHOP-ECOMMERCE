@@ -6,6 +6,7 @@ import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import ForgotPassword from './pages/Forgotpassword/ForgotPassword';
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
+import Cart from './pages/Cart/Cart';
 
 
 
@@ -37,6 +38,9 @@ const router = createBrowserRouter([
       {
         path: "/forgotpassword",
         element: <ForgotPassword/>
+      },{
+        path:'cart',
+        element:<Cart/>
       }
     ]
   }
