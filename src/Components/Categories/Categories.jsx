@@ -10,7 +10,8 @@ import CtegoryItem from "./CtegoryItem";
 
 export default function Categories() {
   const { data, isPending, isError, error } = UseCategories();
-
+   console.log("Categories data:", data); // Debugging line to check the fetched data
+   console.log("Categories error:", error); // Debugging line to check for any errors
   if (isPending) {
     return (
       <Box className="flex justify-center py-16">
@@ -23,6 +24,7 @@ export default function Categories() {
     return (
       <Box className="flex justify-center px-4 py-16">
         <Typography color="error" className="text-center">
+          
           {error?.message || "Something went wrong while loading categories."}
         </Typography>
       </Box>
@@ -34,9 +36,8 @@ export default function Categories() {
       component="section"
       className="w-full overflow-x-hidden bg-[#f8f9ff] px-3 py-8 sm:px-4 sm:py-10 lg:px-5 lg:py-12"
     >
-      {/* نفس عرض ومسافات الكارد الأبيض بالـ Hero */}
       <Box className="mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-7">
-        {/* ============ الهيدر ============ */}
+        {/* ============ header ============ */}
         <Box className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <Box>
             <Typography
@@ -63,7 +64,6 @@ export default function Categories() {
           </Button>
         </Box>
 
-        {/* ============ الشبكة ============ */}
         <Box className="mt-5 grid grid-cols-2 gap-3 sm:mt-6 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-6">
           {data.map((category) => (
             <CtegoryItem key={category.id} category={category} />
