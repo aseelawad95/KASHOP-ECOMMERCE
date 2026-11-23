@@ -102,10 +102,10 @@ export default function Hero() {
             </Stack>
           </Stack>
 
-          {/* ============ الصورة ============ */}
+          {/* ============ Image ============ */}
           <Card
             elevation={0}
-            className="relative mx-auto aspect-[4/5] w-full max-w-sm min-w-0 overflow-hidden rounded-2xl shadow-lg sm:max-w-md lg:mr-0! lg:ml-auto! lg:max-w-[520px]"
+            className="relative mx-auto aspect-4/5 w-full max-w-sm min-w-0 overflow-hidden rounded-2xl shadow-lg sm:max-w-md lg:mr-0! lg:ml-auto! lg:max-w-[520px]"
           >
             <CardMedia
               component="img"

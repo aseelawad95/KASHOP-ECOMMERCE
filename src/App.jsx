@@ -6,12 +6,16 @@ import {
 } from '@tanstack/react-query'
   import { ToastContainer } from 'react-toastify';
 import { ThemeProvider } from '@mui/material/styles';
-import theme from './theme';
+import { getTheme } from './theme';
+import { useThemeStore } from './Store/themeStore';
 
 
 const queryClient = new QueryClient()
 
 export default function App() {
+  
+  const mode = useThemeStore((state) => state.mode);
+  const theme = getTheme(mode);
   return (
     <>
            
