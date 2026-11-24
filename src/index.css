@@ -3,3 +3,11 @@
 @layer theme, base, mui, components, utilities;
 
 @import "tailwindcss";
+
+@theme {
+  --color-brand: #006b5f;
+  --color-gold: #a66a00;
+  --color-page: #faf9ff;
+  --color-section: #e8eafe;
+  --color-glow: #c9d9ee;
+}
