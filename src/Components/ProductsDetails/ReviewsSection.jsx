@@ -3,12 +3,7 @@ import RatingSummary from "./RatingSummary";
 import ReviewCard from "./ReviewCard";
 import ReviewForm from "./ReviewForm";
 
-export default function ReviewsSection({ reviews, rate }) {
-  const handleSubmitReview = (review) => {
-    // TODO: ابعت الريفيو للـ API (useMutation) وبعدها اعمل invalidate للـ product query
-    console.log("new review", review);
-  };
-
+export default function ReviewsSection({ reviews = [], rate, productId }) {
   return (
     <Grid container spacing={{ xs: 2, sm: 3, md: 4 }} className="mt-1">
       <Grid size={{ xs: 12, md: 7 }} className="min-w-0">
@@ -21,14 +16,17 @@ export default function ReviewsSection({ reviews, rate }) {
             </Typography>
           ) : (
             reviews.map((review, i) => (
-              <ReviewCard key={`${review.userName}-${review.createdAt}-${i}`} {...review} />
+              <ReviewCard
+                key={`${review.userName}-${review.createdAt}-${i}`}
+                {...review}
+              />
             ))
           )}
         </Stack>
       </Grid>
 
       <Grid size={{ xs: 12, md: 5 }} className="min-w-0">
-        <ReviewForm onSubmit={handleSubmitReview} />
+        <ReviewForm productId={productId} />
       </Grid>
     </Grid>
   );

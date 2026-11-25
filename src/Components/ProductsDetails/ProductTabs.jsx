@@ -59,7 +59,7 @@ export default function ProductTabs({ product }) {
         </Card>
       )}
 
-      {tab === 1 && <ReviewsSection reviews={reviews} rate={product.rate} />}
+      {tab === 1 && <ReviewsSection reviews={reviews} rate={product.rate}  productId={product.id}/>}
     </>
   );
 }

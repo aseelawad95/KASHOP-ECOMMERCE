@@ -9,6 +9,7 @@ import { useAuthStore } from './../../Store/useAuthStore';
 
 export default function ProductCard({ product }) {
   const { mutate: addToCart, isPending: addingToCartPending } = useAddToCart();
+  
   const token = useAuthStore((state) => state.token);
   const navigate = useNavigate();
   const { name, image, price, rate, quantity } = product;
@@ -19,7 +20,14 @@ export default function ProductCard({ product }) {
 
   const inStock = quantity === undefined || quantity > 0;
 
-  const handleAddToCart = () => {
+
+   const goToDetails = () => {
+    navigate(`/products/${product.id}`);
+  };
+
+
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
     console.log("clicked, token =", token);
     if (!token) {
       navigate("/login");
@@ -30,6 +38,7 @@ export default function ProductCard({ product }) {
 
   return (
     <Card
+    onClick={goToDetails}
       elevation={0}
       className="flex h-full flex-col rounded-xl bg-white p-2.5 shadow-sm transition-shadow hover:shadow-md sm:p-3"
     >

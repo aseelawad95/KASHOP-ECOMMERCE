@@ -11,19 +11,39 @@ import {
   Typography,
 } from "@mui/material";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
+import { useNavigate } from "react-router";
+import useAddReview from "../../hooks/useAddReview";
+import { useAuthStore } from "./../../Store/useAuthStore";
 import { fieldClass, primaryBtn, starsClass } from "./styles";
 
-export default function ReviewForm({ onSubmit }) {
+export default function ReviewForm({ productId }) {
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
   const [certified, setCertified] = useState(true);
 
+  const { mutate: addReview, isPending: addingReviewPending } = useAddReview();
+  const token = useAuthStore((state) => state.token);
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
     if (!comment.trim()) return;
-    onSubmit?.({ rating, comment: comment.trim() });
-    setComment("");
-    setRating(5);
+
+    addReview(
+      { productId, rating, comment: comment.trim() },
+      {
+        onSuccess: () => {
+          setComment("");
+          setRating(5);
+        },
+      }
+    );
   };
 
   return (
@@ -101,11 +121,11 @@ export default function ReviewForm({ onSubmit }) {
           variant="contained"
           disableElevation
           fullWidth
-          disabled={!certified || !comment.trim()}
+          disabled={!certified || !comment.trim() || addingReviewPending}
           startIcon={<SendOutlinedIcon fontSize="small" />}
           className={primaryBtn}
         >
-          Submit Review
+          {addingReviewPending ? "Sending..." : "Submit Review"}
         </Button>
       </Stack>
     </Card>

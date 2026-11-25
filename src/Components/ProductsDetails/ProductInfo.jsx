@@ -24,7 +24,7 @@ export default function ProductInfo({ product }) {
       <Stack direction="row" alignItems="flex-start" justifyContent="space-between" className="gap-2">
         <Typography
           variant="h1"
-          className="min-w-0 break-words text-xl font-bold tracking-tight text-[#1b2233] sm:text-2xl md:text-3xl"
+          className="min-w-0 wrap-break-word text-xl font-bold tracking-tight text-[#1b2233] sm:text-2xl md:text-3xl"
         >
           {name}
         </Typography>
@@ -87,7 +87,8 @@ export default function ProductInfo({ product }) {
           >
             <RemoveIcon fontSize="small" />
           </IconButton>
-          <Typography className="w-10 text-center text-sm font-semibold">{qty}</Typography>
+          <Typography className="w-10 text-center text-sm font-semibold mt-3">{qty}</Typography>
+          
           <IconButton
             aria-label="Increase quantity"
             size="small"

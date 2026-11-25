@@ -1,48 +1,49 @@
 import { createBrowserRouter } from "react-router";
-import MainLayout from './Layouts/MainLayout';
-import Home from './pages/Home/Home';
-import AuthLayout from './Layouts/AuthLayout';
-import Login from './pages/Login/Login';
-import Register from './pages/Register/Register';
-import ForgotPassword from './pages/Forgotpassword/ForgotPassword';
+import MainLayout from "./Layouts/MainLayout";
+import Home from "./pages/Home/Home";
+import AuthLayout from "./Layouts/AuthLayout";
+import Login from "./pages/Login/Login";
+import Register from "./pages/Register/Register";
+import ForgotPassword from "./pages/Forgotpassword/ForgotPassword";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
-import Cart from './pages/Cart/Cart';
-
-
+import Cart from "./pages/Cart/Cart";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainLayout/>,
+    element: <MainLayout />,
     children: [
       {
         index: true,
-        element: <Home/>
-      },{
-        path:"products/:id",
-        element:<ProductDetails/>
-      }
-    ]
+        element: <Home />,
+      },
+      {
+        path: "products/:id",
+        element: <ProductDetails />,
+      },
+      {
+        path: "cart",
+        element: <Cart />,
+      },
+    ],
   },
   {
-    element: <AuthLayout/>,
+    element: <AuthLayout />,
     children: [
       {
         path: "/login",
-        element: <Login/>
+        element: <Login />,
       },
       {
         path: "/register",
-        element: <Register/>
+        element: <Register />,
       },
       {
         path: "/forgotpassword",
-        element: <ForgotPassword/>
-      },{
-        path:'cart',
-        element:<Cart/>
-      }
-    ]
-  }
+        element: <ForgotPassword />,
+      },
+    ],
+  },
 ]);
+
 export default router;
