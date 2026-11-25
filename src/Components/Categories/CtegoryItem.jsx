@@ -1,5 +1,6 @@
 import { Avatar, Card, CardActionArea, Typography } from "@mui/material";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
+import { Link } from "react-router";
 
 export default function CtegoryItem({ category }) {
   const { name, image } = category;
@@ -12,8 +13,9 @@ export default function CtegoryItem({ category }) {
       className="rounded-xl bg-white shadow-sm transition-shadow hover:shadow-md"
     >
       <CardActionArea
+        component={Link}
+        to={`/categories/${category.id}`}
         className="flex h-full flex-col items-center gap-2 px-3 py-5 text-center sm:py-6"
-        // TODO: component={Link} to={`/categories/${category.id}`}
       >
         <Avatar
           src={image}
